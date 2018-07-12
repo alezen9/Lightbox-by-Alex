@@ -1,5 +1,5 @@
 # Lightbox-by-Alex
-Free simple lightbox built from scratch using javascript and css
+Free basic lightbox built from scratch using javascript and css
 
 
 # Setup
@@ -11,23 +11,36 @@ Free simple lightbox built from scratch using javascript and css
 # How to use it
 Just wrap an img tag into an anchor tag.
 
-**IMPORTANT**
-- anchor tag class must be "alex-box"
-- img tag class must be "tmb"
+
+**PICTURES**
+
+**important**
+- anchor tag class must be "alex-box" and attribute "gallery-alex-box" with a valid value
 
 ```sh
-<a href="path/to/full/picture" class="alex-box">
-    <img src="path/to/thumbnail" class="tmb">
+<a href="path/to/full/picture" class="alex-box" gallery-alex-box="myGallery">
+    <img src="path/to/thumbnail">
 </a>
 ```
 
+**VIDEOS**
+
+**important**
+- As seen for pictures, anchor tag class must be "alex-box" and attribute "gallery-alex-box" with a valid value
+- Plus, anchor tag must include the type attribute with "video" value
+
+```sh
+<a href="path/to/full/video" class="alex-box" gallery-alex-box="myGallery2" type="video">
+    <img src="path/to/thumbnail">
+</a>
+```
 # Features
 - Navigate through the pictures with keypress (🡄 🡆)
+- Multiple (separated) galleries in one page
 
 # Upcoming Features
 - Navigate through the pictures with swipe (⮨ ⮩)
-- Gallery handling (so you can add more than one gallery in a page)
-- Animations
+- Visual improvements
 
 
 # ENJOY!
