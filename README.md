@@ -26,6 +26,7 @@ Just wrap an img tag into an anchor tag.
 **VIDEOS**
 
 **important**
+- Only mp4 formats are supported
 - As seen for pictures, anchor tag class must be "alex-box" and attribute "gallery-alex-box" with a valid value
 - Plus, anchor tag must include the type attribute with "video" value
 
@@ -36,6 +37,7 @@ Just wrap an img tag into an anchor tag.
 ```
 # Features
 - Navigate through the pictures with keypress (🡄 🡆)
+- Video support (only mp4 format)
 - Multiple (separated) galleries in one page
 
 # Upcoming Features
