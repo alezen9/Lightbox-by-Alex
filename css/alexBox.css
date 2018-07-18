@@ -37,4 +37,34 @@ a.alex-box {
     max-width: 90%;
     max-height: 90%;
     box-shadow: 0 0 50px 10px rgba(255, 255, 255, 0.089);
+    z-index: 10;
+}
+@keyframes left{
+    0%{
+        left: 50%;
+    }
+    100%{
+        left: -50%;
+        opacity: .6;
+    }
+}
+
+.swipeLeft{
+    animation: left 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    left: -50%;
+}
+
+@keyframes right{
+    0%{
+        left: 50%;
+    }
+    100%{
+        left: 150%;
+        opacity: .6;
+    }
+}
+
+.swipeRight{
+    animation: right 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    left: 150%;
 }

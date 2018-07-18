@@ -37,11 +37,12 @@ Just wrap an img tag into an anchor tag.
 ```
 # Features
 - Navigate through the pictures with keypress (🡄 🡆)
+- Navigate through the pictures with swipe (⮨ ⮩)
 - Video support (only mp4 format)
 - Multiple (separated) galleries in one page
 
 # Upcoming Features
-- Navigate through the pictures with swipe (⮨ ⮩)
+- Youtube videos support (maybe)
 - Visual improvements
 
 
