@@ -3,6 +3,14 @@ var i = -1;
 var currentGallery = "";
 var galleria;
 var dirSwipe;
+window.addEventListener('keydown', notArrows);
+//for enter key (-disable)
+function notArrows(event){
+    event.preventDefault();
+    if((event.charCode == 13) || (event.keyCode == 13)){
+        console.log("enter");
+    }
+}
 
 pictures.forEach(el => {
     el.addEventListener('click',function() {open(this)});
@@ -77,6 +85,7 @@ function createModal(source,tipo){
     modal.classList.add('modal');
     modal.addEventListener('click', clicked);
     document.addEventListener("keydown",keypressed);
+    modal.addEventListener('keyup', notArrows);
     modal.appendChild(x);
     if(tipo == 'video'){
         modal.appendChild(video);
@@ -89,6 +98,7 @@ function createModal(source,tipo){
     }
     body = document.querySelector('body');
     body.appendChild(modal);
+    body.style.overflow = "hidden";
 }
 // close on modal click (empty space around image)
 function clicked(){
@@ -128,6 +138,7 @@ function close(){
         }
     });
     dirSwipe = "";
+    body.style.overflow = "auto";
 }
 // keypress handling
 function keypressed(event){
@@ -135,11 +146,16 @@ function keypressed(event){
         var x = event.charCode || event.keyCode;  // Get the Unicode value
     }
     if ((x == 37) || (x == 40) || (dirSwipe == "left")){   // left arrow or down arrow
+        event.preventDefault();
         close();
         open(pictures[previous(i,currentGallery)]);
     }else if ((x == 39) || (x == 38) || (dirSwipe == "right")){ // right arrow or up arrow
+        event.preventDefault();
         close();
         open(pictures[next(i,currentGallery)]);
+    }else if(x == 27){
+        event.preventDefault();
+        close();
     }
 }
 

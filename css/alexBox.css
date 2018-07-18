@@ -12,6 +12,7 @@ a.alex-box {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.884);
+    z-index: 10;
 }
 .modal > .x::before{
     content: "𝗑";
