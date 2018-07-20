@@ -11,7 +11,7 @@ a.alex-box {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.884);
+    background: rgba(0, 0, 0, 0.938);
     z-index: 10;
 }
 .modal > .x::before{
@@ -51,7 +51,7 @@ a.alex-box {
 }
 
 .swipeLeft{
-    animation: left 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation: left 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
     left: -50%;
 }
 
@@ -66,6 +66,50 @@ a.alex-box {
 }
 
 .swipeRight{
-    animation: right 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation: right 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
     left: 150%;
+}
+@keyframes enter{
+    0%{
+        border-top-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+    }
+    100%{
+        border-radius: 0;
+    }
+}
+
+.enterEffect{
+    animation: enter 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.lBtn,
+.rBtn{
+    position: absolute;
+    top: 50%;
+    margin: auto 5px;
+    width: 50px;
+    height: 100px;
+    border-radius: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-align: center;
+    color: white;
+    z-index: 11;
+    transform: translate(-0%,-50%);
+    text-shadow: 0 0 10px black;
+    line-height: 100px;
+    cursor: pointer;
+}
+.lBtn{
+    left: 0;
+}
+.rBtn{
+    right: 0;
+}
+.lBtn::before{
+    content: "◄";
+}
+.rBtn::before{
+    content: "►";
 }

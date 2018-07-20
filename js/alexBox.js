@@ -7,9 +7,9 @@ window.addEventListener('keydown', notArrows);
 //for enter key (-disable)
 function notArrows(event){
     event.preventDefault();
-    if((event.charCode == 13) || (event.keyCode == 13)){
+    /*if((event.charCode == 13) || (event.keyCode == 13)){
         console.log("enter");
-    }
+    }*/
 }
 
 pictures.forEach(el => {
@@ -30,17 +30,19 @@ function createModal(source,tipo){
         var video = document.createElement('video');
         var controls = document.createAttribute('controls');
         video.setAttributeNode(controls);
-        video.classList.add('video');
+        video.classList.add('video', 'enterEffect');
         video.addEventListener('click', clickedPic);
         video.appendChild(vidSrc);
         swipedetect(video, function(swipedir){
             dirSwipe = swipedir;
             if (swipedir == "left"){
+                video.classList.remove('enterEffect');
                 video.classList.add('swipeLeft');
             }else if(swipedir == "right"){
+                video.classList.remove('enterEffect');
                 video.classList.add('swipeRight');
             }
-            setTimeout(keypressed, 400);
+            setTimeout(keypressed, 200);
         });
     }
     /*else if(tipo == 'youtube'){
@@ -59,34 +61,45 @@ function createModal(source,tipo){
             }else if(swipedir == "right"){
                 video.classList.add('swipeRight');
             }
-            setTimeout(keypressed, 400);
+            setTimeout(keypressed, 200);
         });
     }*/
     else{
         var pic = document.createElement('img');
         pic.src = source;
-        pic.classList.add('foto');
+        pic.classList.add('foto', 'enterEffect');
         pic.addEventListener('click', clickedPic);
         swipedetect(pic, function(swipedir){
             dirSwipe = swipedir;
             if (swipedir == "left"){
+                pic.classList.remove('enterEffect');
                 pic.classList.add('swipeLeft');
             }else if(swipedir == "right"){
+                pic.classList.remove('enterEffect');
                 pic.classList.add('swipeRight');
             }
-            setTimeout(keypressed, 400);
+            setTimeout(keypressed, 200);
         });
     }
     var x = document.createElement('span');
     x.classList.add('x');
     x.addEventListener('click',function() {close()});
+
+    var larrow = document.createElement('div');
+    larrow.classList.add('lBtn');
+    larrow.addEventListener('click',function() {arrow(this)});
+
+    var rarrow = document.createElement('div');
+    rarrow.classList.add('rBtn');
+    rarrow.addEventListener('click',function() {arrow(this)});
     
     var modal = document.createElement('div');
     modal.classList.add('modal');
     modal.addEventListener('click', clicked);
     document.addEventListener("keydown",keypressed);
-    modal.addEventListener('keyup', notArrows);
     modal.appendChild(x);
+    modal.appendChild(larrow);
+    modal.appendChild(rarrow);
     if(tipo == 'video'){
         modal.appendChild(video);
     }
@@ -124,6 +137,7 @@ function open(el){
     pictures.forEach(function (element, index) {
         if(element === el){
             i = index;
+            //console.log("i settato a " + i);
         }
     });
 }
@@ -146,15 +160,21 @@ function keypressed(event){
         var x = event.charCode || event.keyCode;  // Get the Unicode value
     }
     if ((x == 37) || (x == 40) || (dirSwipe == "left")){   // left arrow or down arrow
-        event.preventDefault();
+        if (event){
+            event.preventDefault();
+        }
         close();
         open(pictures[previous(i,currentGallery)]);
     }else if ((x == 39) || (x == 38) || (dirSwipe == "right")){ // right arrow or up arrow
-        event.preventDefault();
+        if (event){
+            event.preventDefault();
+        }
         close();
         open(pictures[next(i,currentGallery)]);
-    }else if(x == 27){
-        event.preventDefault();
+    }else if(x == 27){ // esc button
+        if (event){
+            event.preventDefault();
+        }
         close();
     }
 }
@@ -176,6 +196,16 @@ function next (n,currentGallery){
     }
 }
 
+// arrows click
+function arrow(el){
+    event.stopPropagation();
+    close();
+    if (el.classList.contains('lBtn')){
+        open(pictures[previous(i,currentGallery)]);
+    }else{
+        open(pictures[next(i,currentGallery)]);
+    }
+}
 //--------------------------------------------------------swipe detection-------------------------------------------------------
 function swipedetect(el, callback){
   
@@ -185,9 +215,9 @@ function swipedetect(el, callback){
     startY,
     distX,
     distY,
-    threshold = 150, //required min distance traveled to be considered swipe
-    restraint = 100, // maximum distance allowed at the same time in perpendicular direction
-    allowedTime = 300, // maximum time allowed to travel that distance
+    threshold = 5, //required min distance traveled to be considered swipe
+    restraint = 500, // maximum distance allowed at the same time in perpendicular direction
+    allowedTime = 600, // maximum time allowed to travel that distance
     elapsedTime,
     startTime,
     handleswipe = callback || function(swipedir){}
