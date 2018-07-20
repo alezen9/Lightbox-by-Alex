@@ -4,7 +4,7 @@ Free basic lightbox built from scratch using javascript and css
 
 # Setup
 - Download the alexBox.min.css from the css folder ( ~ 2kb)
-- Download the alexBox.min.js from the js folder ( ~ 4kb)
+- Download the alexBox.min.js from the js folder ( ~ 5kb)
 - Add them to your page (css inside the head tag and js preferably at the bottom before the body closing tag)
 
 
