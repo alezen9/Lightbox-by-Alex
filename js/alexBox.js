@@ -1,6 +1,7 @@
 var pictures = document.querySelectorAll('.alex-box');
 var i = -1;
 var currentGallery = "";
+var currentState = "block";
 var galleria;
 var dirSwipe;
 window.addEventListener('keydown', notArrows);
@@ -35,6 +36,7 @@ function createModal(source,tipo){
         video.appendChild(vidSrc);
         swipedetect(video, function(swipedir){
             dirSwipe = swipedir;
+            console.log(swipedir);
             if (swipedir == "left"){
                 video.classList.remove('enterEffect');
                 video.classList.add('swipeLeft');
@@ -43,6 +45,9 @@ function createModal(source,tipo){
                 video.classList.add('swipeRight');
             }
             setTimeout(keypressed, 200);
+            if(swipedir == "none"){
+                toggleArrows();
+            }
         });
     }
     /*else if(tipo == 'youtube'){
@@ -69,6 +74,7 @@ function createModal(source,tipo){
         pic.src = source;
         pic.classList.add('foto', 'enterEffect');
         pic.addEventListener('click', clickedPic);
+        pic.addEventListener('click', toggleArrows);
         swipedetect(pic, function(swipedir){
             dirSwipe = swipedir;
             if (swipedir == "left"){
@@ -79,18 +85,32 @@ function createModal(source,tipo){
                 pic.classList.add('swipeRight');
             }
             setTimeout(keypressed, 200);
+            if(swipedir == "up"){
+                pic.classList.remove('enterEffect');
+                pic.classList.add('swipeUp');
+                setTimeout(close, 350);
+            }else if(swipedir == "down"){
+                pic.classList.remove('enterEffect');
+                pic.classList.add('swipeDown');
+                setTimeout(close, 350);
+            }else if(swipedir == "none"){
+                toggleArrows();
+            }
         });
     }
-    var x = document.createElement('span');
+    var x = document.createElement('div');
     x.classList.add('x');
+    x.style.display = currentState;
     x.addEventListener('click',function() {close()});
 
     var larrow = document.createElement('div');
     larrow.classList.add('lBtn');
+    larrow.style.display = currentState;
     larrow.addEventListener('click',function() {arrow(this)});
 
     var rarrow = document.createElement('div');
     rarrow.classList.add('rBtn');
+    rarrow.style.display = currentState;
     rarrow.addEventListener('click',function() {arrow(this)});
     
     var modal = document.createElement('div');
@@ -116,6 +136,21 @@ function createModal(source,tipo){
 // close on modal click (empty space around image)
 function clicked(){
     close();
+}
+// toggle arrows show
+function toggleArrows(){
+    var arrows = document.querySelectorAll('.lBtn, .rBtn, .x');
+    if (currentState == "block"){
+        arrows[0].style.display = "none";
+        arrows[1].style.display = "none";
+        arrows[2].style.display = "none";
+        currentState = "none";
+    }else{
+        arrows[0].style.display = "block";
+        arrows[1].style.display = "block";
+        arrows[2].style.display = "block";
+        currentState = "block";
+    }
 }
 // prevent close click on image
 function clickedPic(){
@@ -216,7 +251,7 @@ function swipedetect(el, callback){
     distX,
     distY,
     threshold = 5, //required min distance traveled to be considered swipe
-    restraint = 500, // maximum distance allowed at the same time in perpendicular direction
+    restraint = 50, // maximum distance allowed at the same time in perpendicular direction
     allowedTime = 600, // maximum time allowed to travel that distance
     elapsedTime,
     startTime,

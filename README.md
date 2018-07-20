@@ -3,8 +3,8 @@ Free basic lightbox built from scratch using javascript and css
 
 
 # Setup
-- Download the alexBox.min.css from the css folder (almost 1kb)
-- Download the alexBox.min.js from the js folder (almost 4kb)
+- Download the alexBox.min.css from the css folder ( ~ 2kb)
+- Download the alexBox.min.js from the js folder ( ~ 4kb)
 - Add them to your page (css inside the head tag and js preferably at the bottom before the body closing tag)
 
 
@@ -37,7 +37,7 @@ Just wrap an img tag into an anchor tag.
 ```
 # Features
 - Navigate through the pictures with keypress (🡄 🡆)
-- Exit with 'esc' key
+- Exit with 'esc' key, tap/click on space around image, tap/click on "x" or swipe up or down
 - Navigate through the pictures with arrows click (◄  ►)
 - Navigate through the pictures with swipe (⮨ ⮩)
 - Video support (only mp4 format)
