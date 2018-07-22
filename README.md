@@ -7,7 +7,6 @@ Free basic lightbox built from scratch using javascript and css
 - Download the alexBox.min.js from the js folder ( ~ 5kb)
 - Add them to your page (css inside the head tag and js preferably at the bottom before the body closing tag)
 
-
 # How to use it
 Just wrap an img tag into an anchor tag.
 
@@ -42,6 +41,7 @@ Just wrap an img tag into an anchor tag.
 - Navigate through the pictures with swipe (⮨ ⮩)
 - Video support (only mp4 format)
 - Multiple (separated) galleries in one page
+- Counter (#current piture / #gallery)
 
 # Upcoming Features
 - Youtube videos support (maybe)

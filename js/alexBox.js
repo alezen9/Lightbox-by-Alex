@@ -1,4 +1,5 @@
 var pictures = document.querySelectorAll('.alex-box');
+var count = -1;
 var i = -1;
 var currentGallery = "";
 var currentState = "block";
@@ -18,6 +19,43 @@ pictures.forEach(el => {
     el.addEventListener('touch',function() {open(this)});
 });
 
+// opnes image in modal
+function open(el){
+    if(event){
+        event.preventDefault();
+    }
+    el.classList.add("opened");
+    var tipo = el.getAttribute('type');
+    currentGallery = el.getAttribute('gallery-alex-box');
+    if(tipo){
+        createModal(el.getAttribute('href'), tipo);
+    }else{
+        createModal(el.getAttribute('href'));
+    }
+    pictures.forEach(function (element, index) {
+        if(element === el){
+            i = index;
+            //console.log("i settato a " + i);
+        }
+    });
+}
+
+//counter
+function conta(gallery){
+    var count = 0;
+    var j;
+    pictures.forEach((element,index) => {
+        if(element.getAttribute('gallery-alex-box') == gallery){
+            count++;
+        }
+        if(element.classList.contains('opened')){
+            j = count;
+        }
+    });
+    var res = j + '/' + count;
+    return res;
+}
+
 function createModal(source,tipo){
     if(tipo == 'video'){
         var vidSrc = document.createElement('source');
@@ -33,10 +71,10 @@ function createModal(source,tipo){
         video.setAttributeNode(controls);
         video.classList.add('video', 'enterEffect');
         video.addEventListener('click', clickedPic);
+        video.addEventListener('click', toggleArrows);
         video.appendChild(vidSrc);
         swipedetect(video, function(swipedir){
             dirSwipe = swipedir;
-            console.log(swipedir);
             if (swipedir == "left"){
                 video.classList.remove('enterEffect');
                 video.classList.add('swipeLeft');
@@ -45,7 +83,15 @@ function createModal(source,tipo){
                 video.classList.add('swipeRight');
             }
             setTimeout(keypressed, 200);
-            if(swipedir == "none"){
+            if(swipedir == "up"){
+                video.classList.remove('enterEffect');
+                video.classList.add('swipeUp');
+                setTimeout(close, 350);
+            }else if(swipedir == "down"){
+                video.classList.remove('enterEffect');
+                video.classList.add('swipeDown');
+                setTimeout(close, 350);
+            }else if(swipedir == "none"){
                 toggleArrows();
             }
         });
@@ -112,6 +158,11 @@ function createModal(source,tipo){
     rarrow.classList.add('rBtn');
     rarrow.style.display = currentState;
     rarrow.addEventListener('click',function() {arrow(this)});
+
+    var contatore = document.createElement('div');
+    contatore.classList.add('counter');
+    contatore.innerHTML =  conta(currentGallery);
+    contatore.style.display = currentState;
     
     var modal = document.createElement('div');
     modal.classList.add('modal');
@@ -120,6 +171,7 @@ function createModal(source,tipo){
     modal.appendChild(x);
     modal.appendChild(larrow);
     modal.appendChild(rarrow);
+    modal.appendChild(contatore);
     if(tipo == 'video'){
         modal.appendChild(video);
     }
@@ -139,16 +191,18 @@ function clicked(){
 }
 // toggle arrows show
 function toggleArrows(){
-    var arrows = document.querySelectorAll('.lBtn, .rBtn, .x');
+    var arrows = document.querySelectorAll('.lBtn, .rBtn, .x, .counter');
     if (currentState == "block"){
         arrows[0].style.display = "none";
         arrows[1].style.display = "none";
         arrows[2].style.display = "none";
+        arrows[3].style.display = "none";
         currentState = "none";
     }else{
         arrows[0].style.display = "block";
         arrows[1].style.display = "block";
         arrows[2].style.display = "block";
+        arrows[3].style.display = "block";
         currentState = "block";
     }
 }
@@ -156,26 +210,8 @@ function toggleArrows(){
 function clickedPic(){
     event.stopPropagation();
 }
-// opnes image in modal
-function open(el){
-    if(event){
-        event.preventDefault();
-    }
-    el.classList.add("opened");
-    var tipo = el.getAttribute('type');
-    currentGallery = el.getAttribute('gallery-alex-box');
-    if(tipo){
-        createModal(el.getAttribute('href'), tipo);
-    }else{
-        createModal(el.getAttribute('href'));
-    }
-    pictures.forEach(function (element, index) {
-        if(element === el){
-            i = index;
-            //console.log("i settato a " + i);
-        }
-    });
-}
+
+
 // closes modal and deletes element
 function close(){
     pictures.forEach(element => {
