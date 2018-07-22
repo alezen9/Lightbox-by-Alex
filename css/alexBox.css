@@ -91,14 +91,14 @@ a.alex-box {
         top: 50%;
     }
     100%{
-        top: 150%;
+        top: 250%;
         opacity: .6;
     }
 }
 
 .swipeDown{
     animation: down 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
-    top: 150%;
+    top: 250%;
 }
 @keyframes enter{
     0%{
@@ -116,8 +116,20 @@ a.alex-box {
 }
 
 .enterEffect{
-    animation: enter 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation: enter 0.25s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
+/*
+.loading{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 3em;
+    text-align: center;
+    z-index: 11;
+}
+.loading::before{
+    content: 'Loading...'
+}*/
 
 .lBtn,
 .rBtn{
@@ -135,7 +147,7 @@ a.alex-box {
     text-shadow: 0 0 10px black;
     line-height: 40px;
     cursor: pointer;
-    background: rgba(49, 49, 49, 0.829);
+    background: rgba(95, 95, 95, 0.829);
     text-align: center;
 }
 .lBtn{

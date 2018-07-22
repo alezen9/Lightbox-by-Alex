@@ -74,11 +74,12 @@ function createModal(source,tipo){
         video.addEventListener('click', toggleArrows);
         video.appendChild(vidSrc);
         swipedetect(video, function(swipedir){
-            dirSwipe = swipedir;
             if (swipedir == "left"){
+                dirSwipe = "right";
                 video.classList.remove('enterEffect');
                 video.classList.add('swipeLeft');
             }else if(swipedir == "right"){
+                dirSwipe = "left";
                 video.classList.remove('enterEffect');
                 video.classList.add('swipeRight');
             }
@@ -95,38 +96,79 @@ function createModal(source,tipo){
                 toggleArrows();
             }
         });
-    }
-    /*else if(tipo == 'youtube'){
+    }/*
+    else if(tipo == 'youtube'){
         var yt = document.createElement('iframe');
         var url = source.replace("watch?v=", "embed/");
         yt.setAttribute("src", url);
         yt.setAttribute('frameborder', 0);
+        yt.setAttribute('rel', 0);
+        yt.setAttributeNode(document.createAttribute('allowfullscreen'));
+        yt.setAttributeNode(document.createAttribute('disablekb'));
         yt.style.width = "90%";
-        yt.style.height = "80%";
+        yt.style.height = "90%";
         yt.classList.add('video');
         yt.addEventListener('click', clickedPic);
         swipedetect(yt, function(swipedir){
             dirSwipe = swipedir;
             if (swipedir == "left"){
-                video.classList.add('swipeLeft');
+                yt.classList.remove('enterEffect');
+                yt.classList.add('swipeLeft');
             }else if(swipedir == "right"){
-                video.classList.add('swipeRight');
+                yt.classList.remove('enterEffect');
+                yt.classList.add('swipeRight');
             }
             setTimeout(keypressed, 200);
+            if(swipedir == "up"){
+                yt.classList.remove('enterEffect');
+                yt.classList.add('swipeUp');
+                setTimeout(close, 350);
+            }else if(swipedir == "down"){
+                yt.classList.remove('enterEffect');
+                yt.classList.add('swipeDown');
+                setTimeout(close, 350);
+            }else if(swipedir == "none"){
+                toggleArrows();
+            }
         });
     }*/
     else{
         var pic = document.createElement('img');
         pic.src = source;
+        /*
+        function loaded() {
+            setTimeout(function(){
+                pic.classList.remove('loading');
+                console.log('loading removed');
+                pic.classList.add('enterEffect');
+                console.log('enter added');
+                //alert('loaded');
+            }, 3000);
+          }
+          
+          if (pic.complete) {
+            loaded()
+          } else {
+            pic.classList.add('loading');
+            console.log('loading added');
+            pic.addEventListener('load', loaded);
+          }*/
         pic.classList.add('foto', 'enterEffect');
         pic.addEventListener('click', clickedPic);
         pic.addEventListener('click', toggleArrows);
+        /*
+        pic.addEventListener('touchmove', function(e){
+            e.preventDefault() // prevent scrolling when inside DIV
+            var touchobj = e.changedTouches[0]
+            pic.style.left = touchobj.pageX + 'px';
+        }, false);*/
         swipedetect(pic, function(swipedir){
-            dirSwipe = swipedir;
             if (swipedir == "left"){
+                dirSwipe = "right";
                 pic.classList.remove('enterEffect');
                 pic.classList.add('swipeLeft');
             }else if(swipedir == "right"){
+                dirSwipe = "left";
                 pic.classList.remove('enterEffect');
                 pic.classList.add('swipeRight');
             }
@@ -174,8 +216,8 @@ function createModal(source,tipo){
     modal.appendChild(contatore);
     if(tipo == 'video'){
         modal.appendChild(video);
-    }
-    /*else if(tipo == 'youtube'){
+    }/*
+    else if(tipo == 'youtube'){
         modal.appendChild(yt);
     }*/
     else{
@@ -189,7 +231,7 @@ function createModal(source,tipo){
 function clicked(){
     close();
 }
-// toggle arrows show
+// toggle arrows,counter and x show
 function toggleArrows(){
     var arrows = document.querySelectorAll('.lBtn, .rBtn, .x, .counter');
     if (currentState == "block"){
