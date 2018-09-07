@@ -1,4 +1,4 @@
-# Lightbox-by-Alex
+# Lightbox by Alex
 Free basic lightbox built from scratch using javascript and css
 
 [Demo](https://alezen9.github.io/Lightbox_by_Alex/)
