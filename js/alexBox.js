@@ -5,6 +5,38 @@ var currentGallery = "";
 var currentState = "block";
 var galleria;
 var dirSwipe;
+
+// preload images
+function preloader() {
+    preloadIMG = Array.from(pictures).filter(el => {
+        if(!el.getAttribute('type')){
+            return el;
+        }
+    })
+	if (preloadIMG) {
+        arrIMG = preloadIMG.map(el =>{
+            var img = new Image();
+            img.src = el.getAttribute('href');
+            return img;
+        });
+	}
+}
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			if (oldonload) {
+				oldonload();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(preloader);
+
+
 window.addEventListener('keydown', notArrows);
 //for enter key (-disable)
 function notArrows(event){
@@ -19,43 +51,35 @@ pictures.forEach(el => {
     el.addEventListener('touch',function() {open(this)});
 });
 
-// opnes image in modal
-function open(el){
-    if(event){
-        event.preventDefault();
-    }
-    el.classList.add("opened");
-    var tipo = el.getAttribute('type');
-    currentGallery = el.getAttribute('gallery-alex-box');
-    if(tipo){
-        createModal(el.getAttribute('href'), tipo);
-    }else{
-        createModal(el.getAttribute('href'));
-    }
-    pictures.forEach(function (element, index) {
-        if(element === el){
-            i = index;
-            //console.log("i settato a " + i);
+// swipe detect and add classes
+function swipeAddClasses (elem){
+    swipedetect(elem, function(swipedir){
+        if (swipedir == "left"){
+            dirSwipe = "right";
+            elem.classList.remove('enterEffect');
+            elem.classList.add('swipeLeft');
+        }else if(swipedir == "right"){
+            dirSwipe = "left";
+            elem.classList.remove('enterEffect');
+            elem.classList.add('swipeRight');
+        }
+        setTimeout(keypressed, 200);
+        if(swipedir == "up"){
+            elem.classList.remove('enterEffect');
+            elem.classList.add('swipeUp');
+            setTimeout(close, 350);
+        }else if(swipedir == "down"){
+            elem.classList.remove('enterEffect');
+            elem.classList.add('swipeDown');
+            setTimeout(close, 350);
+        }else if(swipedir == "none"){
+            toggleArrows();
         }
     });
 }
 
-//counter
-function conta(gallery){
-    var count = 0;
-    var j;
-    pictures.forEach((element,index) => {
-        if(element.getAttribute('gallery-alex-box') == gallery){
-            count++;
-        }
-        if(element.classList.contains('opened')){
-            j = count;
-        }
-    });
-    var res = j + '/' + count;
-    return res;
-}
 
+// create modal
 function createModal(source,tipo){
     if(tipo == 'video'){
         var vidSrc = document.createElement('source');
@@ -73,29 +97,7 @@ function createModal(source,tipo){
         video.addEventListener('click', clickedPic);
         video.addEventListener('click', toggleArrows);
         video.appendChild(vidSrc);
-        swipedetect(video, function(swipedir){
-            if (swipedir == "left"){
-                dirSwipe = "right";
-                video.classList.remove('enterEffect');
-                video.classList.add('swipeLeft');
-            }else if(swipedir == "right"){
-                dirSwipe = "left";
-                video.classList.remove('enterEffect');
-                video.classList.add('swipeRight');
-            }
-            setTimeout(keypressed, 200);
-            if(swipedir == "up"){
-                video.classList.remove('enterEffect');
-                video.classList.add('swipeUp');
-                setTimeout(close, 350);
-            }else if(swipedir == "down"){
-                video.classList.remove('enterEffect');
-                video.classList.add('swipeDown');
-                setTimeout(close, 350);
-            }else if(swipedir == "none"){
-                toggleArrows();
-            }
-        });
+        swipeAddClasses(video);
     }/*
     else if(tipo == 'youtube'){
         var yt = document.createElement('iframe');
@@ -135,56 +137,10 @@ function createModal(source,tipo){
     else{
         var pic = document.createElement('img');
         pic.src = source;
-        /*
-        function loaded() {
-            setTimeout(function(){
-                pic.classList.remove('loading');
-                console.log('loading removed');
-                pic.classList.add('enterEffect');
-                console.log('enter added');
-                //alert('loaded');
-            }, 3000);
-          }
-          
-          if (pic.complete) {
-            loaded()
-          } else {
-            pic.classList.add('loading');
-            console.log('loading added');
-            pic.addEventListener('load', loaded);
-          }*/
         pic.classList.add('foto', 'enterEffect');
         pic.addEventListener('click', clickedPic);
         pic.addEventListener('click', toggleArrows);
-        /*
-        pic.addEventListener('touchmove', function(e){
-            e.preventDefault() // prevent scrolling when inside DIV
-            var touchobj = e.changedTouches[0]
-            pic.style.left = touchobj.pageX + 'px';
-        }, false);*/
-        swipedetect(pic, function(swipedir){
-            if (swipedir == "left"){
-                dirSwipe = "right";
-                pic.classList.remove('enterEffect');
-                pic.classList.add('swipeLeft');
-            }else if(swipedir == "right"){
-                dirSwipe = "left";
-                pic.classList.remove('enterEffect');
-                pic.classList.add('swipeRight');
-            }
-            setTimeout(keypressed, 200);
-            if(swipedir == "up"){
-                pic.classList.remove('enterEffect');
-                pic.classList.add('swipeUp');
-                setTimeout(close, 350);
-            }else if(swipedir == "down"){
-                pic.classList.remove('enterEffect');
-                pic.classList.add('swipeDown');
-                setTimeout(close, 350);
-            }else if(swipedir == "none"){
-                toggleArrows();
-            }
-        });
+        swipeAddClasses(pic);
     }
     var x = document.createElement('div');
     x.classList.add('x');
@@ -207,7 +163,7 @@ function createModal(source,tipo){
     contatore.style.display = currentState;
     
     var modal = document.createElement('div');
-    modal.classList.add('modal');
+    modal.classList.add('modal-lightbox');
     modal.addEventListener('click', clicked);
     document.addEventListener("keydown",keypressed);
     modal.appendChild(x);
@@ -227,6 +183,46 @@ function createModal(source,tipo){
     body.appendChild(modal);
     body.style.overflow = "hidden";
 }
+
+
+// opnes image in modal
+function open(el){
+    if(event){
+        event.preventDefault();
+    }
+    el.classList.add("opened");
+    var tipo = el.getAttribute('type');
+    currentGallery = el.getAttribute('gallery-alex-box');
+    if(tipo){
+        createModal(el.getAttribute('href'), tipo);
+    }else{
+        createModal(el.getAttribute('href'));
+    }
+    pictures.forEach(function (element, index) {
+        if(element === el){
+            i = index;
+            //console.log("i settato a " + i);
+        }
+    });
+}
+
+//counter
+function conta(gallery){
+    var count = 0;
+    var j;
+    pictures.forEach((element) => {
+        if(element.getAttribute('gallery-alex-box') == gallery){
+            count++;
+        }
+        if(element.classList.contains('opened')){
+            j = count;
+        }
+    });
+    var res = j + '/' + count;
+    return res;
+}
+
+
 // close on modal click (empty space around image)
 function clicked(){
     close();
@@ -235,16 +231,14 @@ function clicked(){
 function toggleArrows(){
     var arrows = document.querySelectorAll('.lBtn, .rBtn, .x, .counter');
     if (currentState == "block"){
-        arrows[0].style.display = "none";
-        arrows[1].style.display = "none";
-        arrows[2].style.display = "none";
-        arrows[3].style.display = "none";
+        arrows.forEach(e => {
+            e.style.display = "none";
+        });
         currentState = "none";
     }else{
-        arrows[0].style.display = "block";
-        arrows[1].style.display = "block";
-        arrows[2].style.display = "block";
-        arrows[3].style.display = "block";
+        arrows.forEach(e => {
+            e.style.display = "block";
+        });
         currentState = "block";
     }
 }
@@ -259,7 +253,7 @@ function close(){
     pictures.forEach(element => {
         if(element.classList.contains('opened')){
             element.classList.remove('opened');
-            var modal = document.querySelector('.modal');
+            var modal = document.querySelector('.modal-lightbox');
             modal.parentNode.removeChild(modal);
             document.removeEventListener("keydown", keypressed);
         }
