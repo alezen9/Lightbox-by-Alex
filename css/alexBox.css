@@ -20,7 +20,7 @@ a.alex-box {
 .modal-lightbox > .x{
     position: absolute;
     text-align: center;
-    font-size: 2em;
+    font-size: 1.5em;
     color: white;
     cursor: pointer;
     width: 30px;
@@ -137,15 +137,12 @@ a.alex-box {
     top: 50%;
     width: 40px;
     height: 40px;
+    line-height: 40px;
     border-radius: 3px;
-    font-size: 1.2em;
-    font-weight: 500;
     text-align: center;
-    color: white;
     z-index: 11;
     transform: translate(-0%,-50%);
     text-shadow: 0 0 10px black;
-    line-height: 40px;
     cursor: pointer;
     background: rgba(95, 95, 95, 0.829);
     text-align: center;
@@ -156,16 +153,17 @@ a.alex-box {
 .rBtn{
     right: 1.2em;
 }
-.lBtn::before{
-    content: "◄";
+.rBtn > svg {
+    height: .7em;
 }
-.rBtn::before{
-    content: "►";
+.lBtn > svg {
+    transform: rotateZ(180deg);
+    height: .7em;
 }
 .modal-lightbox > .counter{
     position: absolute;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1em;
     color: white;
     cursor: pointer;
     width: 30px;
